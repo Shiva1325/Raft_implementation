@@ -1,0 +1,16 @@
+syntax="proto3";
+
+option go_package = "./pb";
+
+package chat;
+
+message User {
+    uint32 id =1;
+    string name =2;
+}
+
+message Logout{
+    User user =1;
+}
+
+

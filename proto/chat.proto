@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package chat;
+
+import "user.proto";
+
+message ChatMessage {
+  User messaged_by =1;
+  string message = 2;
+  //liked users map 
+  map<uint32, string> liked_by = 4;
+}
+
+message Group {
+  uint32 groupID = 1;
+  string groupname = 2;
+  map<uint32, string> participants = 3;
+  map<uint32, ChatMessage> messages = 4;
+}
+
+message JoinChat {
+  User user = 1;
+  string newgroup = 2;
+  string currgroup =3;
+}
+
+message AppendChat {
+  ChatMessage chatmessage =1;
+  Group group = 2;
+}
+
+message LikeMessage {
+  User user = 1;
+  uint32 messageid = 2;
+  Group group = 3;
+}
+
+message UnLikeMessage {
+  User user = 1;
+  uint32 messageid = 2;
+  Group group = 3;
+}
+
+message PrintChat {
+  User user = 1;
+  string groupname = 2;
+}
+

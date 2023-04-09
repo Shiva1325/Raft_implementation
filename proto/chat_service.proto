@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package chat;
+
+import "chat.proto";
+import "user.proto";
+
+message JoinRequest { JoinChat joinchat = 1; }
+
+message JoinResponse { Group group = 1; }
+
+message GroupChatRequest {
+  oneof action {
+    AppendChat append = 1;
+    LikeMessage like = 2;
+    UnLikeMessage unlike = 3;
+    PrintChat print = 4;
+    Logout logout =5;
+  }
+}
+
+message GroupChatResponse { Group group = 1; string command=2; }
+
+service ChatService {
+  rpc JoinGroup(JoinRequest) returns (JoinResponse) {};
+  rpc GroupChat(stream GroupChatRequest) returns (stream GroupChatResponse) {};
+
+}
+
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse) {};
+  rpc Logout(LogoutRequest) returns (LogoutResponse) {};
+  rpc ClientStatus(stream LoginRequest) returns (LogoutResponse){};
+}
+
+message LoginRequest { User user = 1; }
+
+message LoginResponse { User user = 1; }
+
+message LogoutRequest { Logout user = 1; }
+
+message LogoutResponse { bool status = 1; }
+
